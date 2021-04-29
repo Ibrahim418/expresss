@@ -9,7 +9,7 @@ const logtime=function(req,res,next){
     console.log(date)
     const day=date.getDay()
     const hours=date.getHours()
-    if(day>0 && day<6 && hours>9 && hours < 10) next()
+    if(day>0 && day<6 && hours>9 && hours < 17) next()
     else{
         console.log('website not available')
         res.redirect('/error.html')
