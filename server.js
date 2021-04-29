@@ -3,20 +3,30 @@ const app =express();
 const port = 5000 ; //define port
 const path=require('path');
 
-// middelware
+
 const logtime=function(req,res,next){
-    const date=new Date()
+    const date=new Date(Date.now())
+    console.log(date)
     const day=date.getDay()
     const hours=date.getHours()
-    if(day<6 && hours>=9 && hours <= 13) {next()}
+    if(day>0 && day<6 && hours>9 && hours < 10) next()
     else{
         console.log('website not available')
-        res.send('<h1>website not available</h1>')
+        res.redirect('/error.html')
+        // res.send('<h1>website not available</h1>')
+        // res.end()
     }
     }
-    app.use(logtime) // call middelware
+    app.get('/error.html',(req,res)=>{
+        res.sendFile(path.join(__dirname,'public','error.html'))
+    })
+app.use(logtime)
+app.use(express.static(__dirname+"/public"))
+// middelware
 
-    app.get ('/',(req,res)=>{
+     // call middelware
+
+    /* app.get ('/',(req,res)=>{
         res.sendFile(path.join(__dirname,'./public/index.html'))
     })
     app.get('/contact',(req,res)=>{
@@ -25,7 +35,7 @@ const logtime=function(req,res,next){
     app.get('/service',(req,res)=>{
         res.sendFile(path.join(__dirname,'./public/service.html')) 
     })
-
+ */
     app.listen(port, (err)=>{
         if (err) throw err 
         console.log('server is runnig')
